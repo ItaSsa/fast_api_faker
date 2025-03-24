@@ -1,4 +1,8 @@
 from fastapi import FastAPI
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import HTMLResponse  # Importing HTMLResponse
+from fastapi.templating import Jinja2Templates  # Render templates HTML
+from starlette.requests import Request  # Importing Request
 from faker import Faker
 import pandas as pd
 import random
@@ -6,6 +10,7 @@ import random
 # Instancing 
 app = FastAPI(debug=True)
 fake = Faker()
+
 
 # Reading products list to be use to generating the purchase(s)
 file_name = 'data/products.csv'
@@ -15,13 +20,23 @@ df.set_index('index', inplace=True)
 
 online_store = 11
 
-@app.get("/")
-async def welcome_store():
-    return "Welcome Online Store!"
-        
+# Mounts the **static/** directory at the **/static** URL,
+#  allowing the browser to access 
+# files such as images, CSS, and JavaScript.
+app.mount("/static", StaticFiles(directory="static"), name="static")
 
-@app.get("/gerar_compra")
-async def gerar_compra():
+# Configures FastAPI to render HTML files stored in 
+# the **templates/** folder using the Jinja2 library.
+templates = Jinja2Templates(directory="templates")
+
+## Store homepage
+@app.get("/", response_class=HTMLResponse)
+async def home(request: Request):
+    return templates.TemplateResponse("index.html", {"request": request})
+
+# Generating a purchase record from products dataframe
+@app.get("/gen_purchase")
+async def gen_purchase():
     index = random.randint(1, len(df)-1)
     tuple = df.iloc[index]
     return [{
@@ -35,18 +50,19 @@ async def gerar_compra():
             "dateTime": fake.iso8601()
         }]
 
-@app.get("/gerar_compras/{numero_registro}")
-async def gerar_compra(numero_registro: int):
+# Generating n purchasing records
+@app.get("/gen_purchase/{record_number}")
+async def gen_purchase(record_number: int):
     
-    if numero_registro < 1:
-        return {"error" : "O número deve ser maior que 1"}
+    if record_number < 1:
+        return {"error" : "The record's number should be greater than 1"}
  
-    respostas = []
-    for _ in range(numero_registro):
+    responses = []
+    for _ in range(record_number):
         try:
             index = random.randint(1, len(df)-1)
             tuple = df.iloc[index]
-            compra = {
+            purchase = {
                     "client": fake.name(),
                     "creditcard": fake.credit_card_provider(),
                     "product": tuple["Product Name"],
@@ -56,12 +72,12 @@ async def gerar_compra(numero_registro: int):
                     "store": online_store,
                     "dateTime": fake.iso8601()
                     }
-            respostas.append(compra)
+            responses.append(purchase)
         except IndexError as e:
-            print(f"Erro de índice: {e}")
+            print(f"Index error: {e}")
         except ValueError as e:
-            print(f"Erro inesperado: {e}")
-            compra = {
+            print(f"Unexpected error: {e}")
+            purchase = {
                     "client": fake.name(),
                     "creditcard": fake.credit_card_provider(),
                     "product": "error",
@@ -71,7 +87,7 @@ async def gerar_compra(numero_registro: int):
                     "store": online_store,
                     "dateTime": fake.iso8601()
                     }
-            respostas.append(compra)
+            responses.append(purchase)
         except Exception as e:
-            print(f"Erro inesperado: {e}")
-    return respostas
+            print(f"Unexpected error: {e}")
+    return responses
