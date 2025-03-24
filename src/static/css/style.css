@@ -5,50 +5,131 @@ body {
     color: #333;
     margin: 0;
     padding: 0;
+}
+
+/* Container for Sidebar and Main Content */
+.container {
+    display: flex;
+    max-width: 1000px;
+    margin: 20px auto;
+}
+
+/* Sidebar */
+.sidebar {
+    width: 250px;
+    background-color: #007bff; /* Blue */
+    color: white;
+    padding: 20px;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* Alinhando opções à esquerda */
+}
+
+.sidebar h3 {
     text-align: center;
+    width: 100%;
+    margin-bottom: 15px;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.5);
+    padding-bottom: 5px;
+}
+
+/* Menu list */
+.sidebar ul {
+    list-style: none;
+    padding: 0;
+    width: 100%;
+}
+
+.sidebar ul li {
+    padding: 10px 0;
+    width: 100%;
+    text-align: left; /* Alinhando os textos à esquerda */
+}
+
+.sidebar ul li a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    display: block;
+    padding: 10px;
+    border-radius: 5px;
+    transition: 0.3s;
+}
+
+.sidebar ul li a:hover {
+    background-color: #0056b3;
+}
+
+/* Linha separadora entre os itens do menu */
+.sidebar hr {
+    width: 100%;
+    border: 0;
+    height: 1px;
+    background-color: rgba(255, 255, 255, 0.5);
+    margin: 10px 0;
+}
+
+/* Input field and button */
+.sidebar input {
+    width: calc(100% - 20px);
+    padding: 8px;
+    margin: 5px 10px;
+    border: none;
+    border-radius: 4px;
+    text-align: center;
+}
+
+.sidebar button {
+    width: calc(100% - 20px);
+    padding: 8px;
+    background-color: white;
+    color: #007bff;
+    border: none;
+    border-radius: 4px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+    margin: 5px 10px;
+}
+
+.sidebar button:hover {
+    background-color: #0056b3;
+    color: white;
+}
+
+/* Main Content */
+.main-content {
+    flex: 1;
+    background: white;
+    padding: 20px;
+    margin-left: 20px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    text-align: center;
+}
+
+/* Logo centralizado */
+.logo-container {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.logo {
+    width: 200px;
 }
 
 /* Header */
 header {
-    background-color: #007bff; /* Blue */
+    background-color: #007bff;
     color: white;
+    text-align: center;
     padding: 15px 0;
 }
 
 header h1 {
     margin: 0;
     font-size: 24px;
-}
-
-nav {
-    margin-top: 10px;
-}
-
-nav a {
-    color: white;
-    text-decoration: none;
-    margin: 0 15px;
-    font-weight: bold;
-}
-
-nav a:hover {
-    text-decoration: underline;
-}
-
-/* Logo */
-.logo {
-    margin-top: 20px;
-    width: 200px;
-}
-
-/* Main Content */
-main {
-    max-width: 800px;
-    margin: 20px auto;
-    padding: 20px;
-    background: white;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
 }
 
 /* Footer */

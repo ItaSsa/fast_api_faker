@@ -3,9 +3,41 @@
 {% block title %}Home - Online Store{% endblock %}
 
 {% block content %}
-    <div style="text-align: center;">
-        <img src="{{ url_for('static', path='images/logo.png') }}" alt="Online Store Logo" width="200">
-        <h2>Welcome to Our Online Store!</h2>
-        <p>Find the best products with amazing discounts.</p>
+    <div class="container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <h3>Navigation</h3>
+            <ul>
+                <li><a href="/">🏠 Home</a></li>
+                <hr>
+                <li><a href="/gen_purchase">🛒 Generate Single Purchase</a></li>
+                <hr>
+                <li>
+                    <label for="purchaseCount">📦 Generate Multiple Purchases:</label>
+                    <input type="number" id="purchaseCount" min="1" max="100" placeholder="Enter a number">
+                    <button onclick="redirectToPurchases()">Go</button>
+                </li>
+            </ul>
+        </aside>
+
+        <!-- Main Content -->
+        <section class="main-content">
+            <div class="logo-container">
+                <img src="{{ url_for('static', path='images/logo.png') }}" alt="Online Store Logo" class="logo">
+            </div>
+            <h2>Welcome to Our Online Store!</h2>
+            <p>Find the best products with amazing discounts.</p>
+        </section>
     </div>
+
+    <script>
+        function redirectToPurchases() {
+            let count = document.getElementById("purchaseCount").value;
+            if (count > 0) {
+                window.location.href = `/gen_purchase/${count}`;
+            } else {
+                alert("Please enter a valid number.");
+            }
+        }
+    </script>
 {% endblock %}
