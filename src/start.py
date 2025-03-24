@@ -39,7 +39,7 @@ async def home(request: Request):
 async def gen_purchase():
     index = random.randint(1, len(df)-1)
     tuple = df.iloc[index]
-    return [{
+    return {
             "client": fake.name(),
             "creditcard": fake.credit_card_provider(),
             "product": tuple["Product Name"],
@@ -48,7 +48,7 @@ async def gen_purchase():
             "clientPosition": fake.location_on_land(),
             "store": online_store,
             "dateTime": fake.iso8601()
-        }]
+        }
 
 # Generating n purchasing records
 @app.get("/gen_purchase/{record_number}")
